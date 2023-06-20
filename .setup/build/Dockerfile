@@ -93,5 +93,6 @@ EXPOSE 80
 
 # Start APP
 CMD ["nginx", "-g", "daemon off;"]
+RUN chmod o+w ./storage/ -R
 RUN chmod +x .setup/build/scripts/entrypoint.sh
 ENTRYPOINT [".setup/build/scripts/entrypoint.sh"]

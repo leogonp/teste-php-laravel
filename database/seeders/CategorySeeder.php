@@ -18,5 +18,17 @@ class CategorySeeder extends Seeder
         DB::table('categories')->insert([
             'name' => 'Remessa'
         ]);
+
+        DB::table('documents')->insert([
+            'title' => 'Remessa Parcial',
+            'category_id' => 1,
+            'content' => 'Remessa Parcial',
+        ]);
+
+        DB::table('documents')->insert([
+            'title' => 'sdasdsadsad Parcial',
+            'category_id' => 2,
+            'content' => 'Remessa Pasdasdasdasdasdasdsadrcial',
+        ]);
     }
 }
