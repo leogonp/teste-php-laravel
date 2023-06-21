@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Document;
 
 use App\Http\Controllers\Controller;
-use App\Models\Document\Document;
 use App\Service\Document\DocumentService;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class DocumentController extends Controller
 {
@@ -17,23 +16,13 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = $this->service->getAll();
-        dd($documents);
-
         return view('document.index', compact('documents'));
     }
 
-    public function create()
+    public function sendQueue(): RedirectResponse
     {
-        //
-    }
+        $this->service->runQueue();
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(Document $document)
-    {
-        //
+        return redirect()->route('documents.index');
     }
 }

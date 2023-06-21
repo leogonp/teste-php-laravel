@@ -59,6 +59,12 @@ RUN pecl install redis xdebug \
 
 RUN apk del make musl-dev libc-dev gcc g++ autoconf bash
 
+# Install Supervisor
+RUN apk add --no-cache supervisor
+
+# Copy Supervisor configuration file
+COPY .setup/build/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 # Tuning OS
 RUN echo 'net.ipv4.ip_local_port_range = 12000 65535' >> /etc/sysctl.conf
 RUN echo 'fs.file-max = 1048576' >> /etc/sysctl.conf

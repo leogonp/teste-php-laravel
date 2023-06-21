@@ -10,7 +10,7 @@ enum DocumentCategoryEnum: int
     public static function fromString(string $category): self
     {
         return match ($category) {
-            'Remessa parcial' => self::PARTIAL_SHIPPING,
+            'Remessa Parcial' => self::PARTIAL_SHIPPING,
             'Remessa' => self::SHIPPING,
         };
     }

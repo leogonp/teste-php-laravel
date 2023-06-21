@@ -4,13 +4,12 @@ namespace App\Entity\Document;
 
 use App\Enum\Document\DocumentCategoryEnum;
 
-class Document
+class Category
 {
 
     public function __construct(
-        public readonly string $title,
-        public readonly string $contents,
-        public readonly Category $category,
+        public readonly int $id,
+        public readonly string $name,
     )
     {
     }
@@ -18,18 +17,16 @@ class Document
     public function toArray(): array
     {
         return [
-          'title' => $this->title,
-          'contents' => $this->contents,
-          'category' => $this->category->toArray(),
+          'id' => $this->id,
+          'name' => $this->name,
         ];
     }
 
     public static function fromArray(array $data): static
     {
         return new static(
-            title: $data['title'],
-            contents: $data['contents'],
-            category: Category::fromArray($data['category'])
+            id: $data['id'],
+            name: $data['name']
         );
     }
 

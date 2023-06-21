@@ -6,8 +6,11 @@ php-fpm --daemonize
 printf "Starting Nginx...\n\n"
 set -e
 
+printf "Starting Supervisor...\n\n"
+/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf &
+
 if [[ "$1" == -* ]]; then
-    set -- nginx -g daemon off; "$@"
+    set -- nginx -g "daemon off;" "$@"
 fi
 
 printf "Running php artisan optimize...\n\n"

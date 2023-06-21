@@ -2,61 +2,71 @@
 <html>
 <head>
     <title>Lista de Documentos</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #000000;
+            text-align: left;
+            padding: 8px;
+            max-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        .button {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button1 {background-color: #008CBA;}
+    </style>
 </head>
 <body>
 <div class="container">
 
     <h1>Documentos</h1>
+    <form action="{{ route('documents.send-queue') }}" method="GET">
+        @csrf
+        <button class="button button1">Importar documentos</button>
+    </form>
 
     <table>
         <thead>
         <tr>
             <th>Categoria</th>
             <th>Título</th>
-            <th>Ações</th>
+            <th>Conteúdo</th>
         </tr>
         </thead>
         <tbody>
         @foreach ($documents as $document)
             <tr>
-                <td>{{ $document->categoria }}</td>
-                <td>{{ $document->titulo }}</td>
-                <td>
-                    <button class="open-modal" data-documento="{{ $document->id }}">Abrir</button>
-                </td>
+                <td>{{ $document->category->name }}</td>
+                <td>{{ $document->title }}</td>
+                <td>{{ $document->contents }}</td>
             </tr>
         @endforeach
         </tbody>
     </table>
-
-    <div id="modal" style="display: none;">
-        <h2 id="modal-title"></h2>
-        <p id="modal-content"></p>
-    </div>
-
 </div>
 
 </body>
 </html>
 
-
-<script>
-        const modal = document.getElementById('modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalContent = document.getElementById('modal-content');
-
-        const buttons = document.querySelectorAll('.open-modal');
-        buttons.forEach((button) => {
-            button.addEventListener('click', (event) => {
-                const documentoId = event.target.dataset.documento;
-
-                fetch(`/documentos/${documentoId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        modalTitle.textContent = data.titulo;
-                        modalContent.textContent = data.conteudo;
-                        modal.style.display = 'block';
-                    });
-            });
-        });
-    </script>

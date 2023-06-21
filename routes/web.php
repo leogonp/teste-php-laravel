@@ -20,3 +20,5 @@ Route::get('/', function () {
 
 Route::get('/documents', [DocumentController::class,'index'])->name('documents.index');
 
+Route::get('/documents/send-queue', [DocumentController::class,'sendQueue'])->name('documents.send-queue');
+

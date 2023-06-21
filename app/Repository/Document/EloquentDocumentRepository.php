@@ -2,6 +2,7 @@
 
 namespace App\Repository\Document;
 
+use App\DTO\Document\DocumentDTO;
 use App\Entity\Document\Document;
 use App\Models\Document\Document as DocumentModel;
 use App\Repository\Document\Collection\DocumentCollection;
@@ -17,7 +18,12 @@ class EloquentDocumentRepository implements DocumentRepository
     public function getAll(): DocumentCollection
     {
         return new DocumentCollection(
-          Document::arrayOf($this->documentModel::all()->toArray())
+          Document::arrayOf($this->documentModel->newQuery()->with(['category'])->get()->toArray())
         );
+    }
+
+    public function save(DocumentDTO $document): void
+    {
+        $this->documentModel->create($document->toArray());
     }
 }
