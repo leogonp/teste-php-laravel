@@ -1,28 +1,22 @@
-![Logo AI Solutions](http://aisolutions.tec.br/wp-content/uploads/sites/2/2019/04/logo.png)
+# Teste AiSolutions
+Esse projeto tem como objetivo testar a importação de um arquivo json no storage do laravel para um bando de dados Mysql via fila utilizando o redis.
 
-# AI Solutions
+## Estrutura do projeto
+Essa é uma aplicação Laravel 10 e PHP 8.1.
 
-## Teste para novos candidatos (PHP/Laravel)
+## Como instalar?
 
-### Introdução
+Crie um arquivo `.env` a partir do `.env.example`.
 
-Este teste utiliza PHP 8.1, Laravel 10 e um banco de dados SQLite simples.
+Execute o seguinte commando:
+- make docker-install
 
-1. Faça o clone desse repositório;
-1. Execute o `composer install`;
-1. Crie e ajuste o `.env` conforme necessário
-1. Execute as migrations e os seeders;
+Para rodar as migrations e seeders, execute o seguinte comando (note que ele apagará todos os dados já presentes no banco):
+- make docker-migrate
 
-### Primeira Tarefa:
+Caso seja necessário, dê as permissões necessárias à pasta `.docker-volumes`.
 
-Crítica das Migrations e Seeders: Aponte problemas, se houver, e solucione; Implemente melhorias;
+Acesse a url: `http://localhost:8080/documents` para visualizar a lista de documentos.
 
-### Segunda Tarefa:
+O botão `Importar Documentos` irá iniciar o processo de importação para a base.
 
-Crie a estrutura completa de uma tela que permita adicionar a importação do arquivo `storage/data/2023-03-28.json`, para a tabela `documents`. onde cada registro representado neste arquivo seja adicionado a uma fila para importação.
-
-Feito isso crie uma tela com um botão simples que dispara o processamento desta fila.
-
-Utilize os padrões que preferir para as tarefas.
-
-Boa sorte!

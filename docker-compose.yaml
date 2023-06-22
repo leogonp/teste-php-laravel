@@ -1,0 +1,71 @@
+version: "3.3"
+services:
+  mysql:
+    image: mysql:5.7.28
+    container_name: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      TZ: "America/Sao_Paulo"
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
+    volumes:
+      - .docker-volumes/mysql:/var/lib/mysql
+      - .setup/build/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - aisolutions
+
+  queue:
+    image: redis:5.0-alpine
+    container_name: redis
+    volumes:
+      - .docker-volumes/redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - aisolutions
+
+  api:
+    image: leonam/aisolutions:latest
+    build:
+      context: ./
+      args:
+        NODE_ENV: dev
+      dockerfile: .setup/build/Dockerfile
+    container_name: "aisolutions-api"
+    volumes:
+      - ./:/var/www/localhost/htdocs
+    ports:
+      - "8080:80"
+    links:
+      - mysql
+      - queue
+    environment:
+      - APP_ENV=${APP_ENV:-local}
+      - OPCACHE_ENABLE=${OPCACHE_ENABLE:-1}
+      - XDEBUG_MODE=${XDEBUG_MODE:-debug}
+      - XDEBUG_CLIENT_HOST=${XDEBUG_CLIENT_HOST:-host.docker.internal}
+      - XDEBUG_CLIENT_PORT=${XDEBUG_CLIENT_PORT:-9003}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - aisolutions
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7
+    depends_on:
+      - mysql
+    networks:
+      - aisolutions
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+    volumes:
+      - /sessions
+    container_name: phpmyadmin
+
+networks:
+  aisolutions:
+    name: 'aisolutions'
