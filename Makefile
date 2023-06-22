@@ -25,6 +25,9 @@ docker-composer-install:
 docker-logs:
 	docker-compose logs --follow
 
+docker-test:
+	docker exec -t $(CONTAINER_NAME) composer unit-test
+
 docker-migrate:
 	docker exec $(CONTAINER_NAME) php artisan db:wipe
 	docker exec $(CONTAINER_NAME) php -d memory_limit=-1 artisan migrate --seed

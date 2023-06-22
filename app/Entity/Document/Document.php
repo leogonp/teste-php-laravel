@@ -2,8 +2,6 @@
 
 namespace App\Entity\Document;
 
-use App\Enum\Document\DocumentCategoryEnum;
-
 class Document
 {
 
